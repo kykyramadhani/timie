@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Timer: Identifiable {
+struct NoodleTimer: Identifiable {
     let id: UUID = UUID()
     var level: Level
     
