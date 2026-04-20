@@ -28,7 +28,7 @@ struct NoodleTimer: Identifiable {
     }
 
     mutating func pause() {
-        isPaused = true
+        isPaused.toggle()
     }
 
     mutating func reset() {
