@@ -1,20 +1,3 @@
-//
-//  LevelView.swift
-//  timie
-//
-//  Created by Pelangi Romadoni on 20/04/26.
-//
-
-
-
-//
-//  Untitled.swift
-//  timie
-//
-//  Created by Pelangi Romadoni on 20/04/26.
-//
-
-//
 //  ContentView.swift
 //  timie
 //
@@ -24,6 +7,15 @@
 import SwiftUI
 
 struct LevelView: View {
+    
+//    @State var levels: [Level] = [
+//        Level(levelName: "Perfect", cookingDuration: "3 mins", description: "Perfectly cooked anjay", illustration: ""),
+//        
+//        Level(levelName: "Firm", cookingDuration: "1 mins", description: "Still kind of hard...", illustration: ""),
+//        
+//        Level(levelName: "Soft", cookingDuration: "4 mins", description: "For someone who loves soft soft noodles", illustration: "")
+//    ]
+    
     let bgColor = Color(red: 249/255, green: 242/255, blue: 208/255)
     let headingColor = Color(red: 180/255, green: 59/255, blue: 6/255)
     let subtitleColor = Color(red: 75/255, green: 69/255, blue: 66/255)
@@ -47,43 +39,50 @@ struct LevelView: View {
                     .foregroundColor(subtitleColor)
                 Spacer(minLength: 20)
                 
+                CardCarousel()
+                    .padding(.top, 10)
+                                
+//                ForEach(0..<levels.count, id : \.self) { index in
+//                        CardComponent(level: $levels[index])
+//                }
                 
-                ZStack(alignment: .bottomTrailing){
-                    RoundedRectangle(cornerRadius: 25)
-                        .foregroundColor(mainShapeColor)
-                        .frame(width: 264.58, height: 418)
-                    
-                    //Footer thing
-                    ZStack{
-                        UnevenRoundedRectangle(
-                            topLeadingRadius: 0,
-                            bottomLeadingRadius: 25,
-                            bottomTrailingRadius: 25,
-                            topTrailingRadius: 0
-                        )
-                        .foregroundColor(secondShapeColor)
-                        
-                        VStack(alignment: .leading, spacing: 20){
-                            HStack {
-                                Text("Perfect")
-                                    .font(Font.system(size: 22, weight: .bold, design: .default))
-                                    .padding(.horizontal, 20)
-                                    .foregroundColor(.white)
-                                Spacer()
-                                Label("3 mins", systemImage: "clock.fill")
-                                    .font(Font.system(size: 18, weight: .semibold, design: .default))
-                                    .padding(.horizontal, 20)
-                                    .foregroundColor(.white)
-                            }
-                            Text("Perfectly cooked. Chewy. As it's intended to eat.")
-                                .padding(.horizontal, 20)
-                                .foregroundColor(.white)
-                        }
-                        
-                    }
-                    .frame(width: 264.58, height: 170)
-                    
-                }
+                
+//                ZStack(alignment: .bottomTrailing){
+//                    RoundedRectangle(cornerRadius: 25)
+//                        .foregroundColor(mainShapeColor)
+//                        .frame(width: 264.58, height: 418)
+//                    
+//                    //Footer thing
+//                    ZStack{
+//                        UnevenRoundedRectangle(
+//                            topLeadingRadius: 0,
+//                            bottomLeadingRadius: 25,
+//                            bottomTrailingRadius: 25,
+//                            topTrailingRadius: 0
+//                        )
+//                        .foregroundColor(secondShapeColor)
+//                        
+//                        VStack(alignment: .leading, spacing: 20){
+//                            HStack {
+//                                Text(level.levelName)
+//                                    .font(Font.system(size: 22, weight: .bold, design: .default))
+//                                    .padding(.horizontal, 20)
+//                                    .foregroundColor(.white)
+//                                Spacer()
+//                                Label(level.cookingDuration, systemImage: "clock.fill")
+//                                    .font(Font.system(size: 18, weight: .semibold, design: .default))
+//                                    .padding(.horizontal, 20)
+//                                    .foregroundColor(.white)
+//                            }
+//                            Text(level.description)
+//                                .padding(.horizontal, 20)
+//                                .foregroundColor(.white)
+//                        }
+//                        
+//                    }
+//                    .frame(width: 264.58, height: 170)
+//                    
+//                }
                 Spacer()
                 NavigationLink {
                     Text("placeholder")

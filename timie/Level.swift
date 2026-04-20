@@ -10,7 +10,9 @@ import Foundation
 struct Level: Identifiable {
     let id: UUID = UUID()
     var levelName: String
-    var cookingDuration: TimeInterval
+    var cookingDuration: String
     var description: String
     var illustration: String
 }
+
+

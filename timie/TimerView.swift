@@ -12,7 +12,7 @@ struct TimerView: View {
     @State private var timerModel = NoodleTimer(
         level: Level(
             levelName: "Perfect Noodles",
-            cookingDuration: 180,
+            cookingDuration: "3 min",
             description: "Boil until perfect",
             illustration: ""
         ),
@@ -74,7 +74,7 @@ struct TimerView: View {
             .font(.system(size: 18))
             
             Text(timerModel.getFormattedTime())
-                .font(.system(size: 80, weight: .medium, design: .rounded))
+                .font(.system(size: 80, weight: .medium, design: .default))
                 .foregroundColor(textBlue)
                 .padding(.top, 1)
             
