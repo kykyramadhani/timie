@@ -9,21 +9,20 @@ import SwiftUI
 
 struct CardCarousel: View {
     @Binding var activeLevel: Level
-    @State private var scrollPosition: Int?
-    @State private var itemsArray: [[Level]] = []
+    @State private var scrollPosition: Int? = 1
     
     let sourceLevels: [Level]
     private let totalItemWidth: CGFloat = 284.58
-    private let animationDuration: CGFloat = 0.3
+    private let animationDuration: CGFloat = 0.1
+    
 
     var body: some View {
-        let itemsTemp = itemsArray.flatMap { $0 }
         
         GeometryReader { geometry in
             ScrollView(.horizontal) {
-                HStack(spacing: 0) {
-                    ForEach(0..<itemsTemp.count, id: \.self) { index in
-                        let item = itemsTemp[index]
+                LazyHStack(spacing: 0) {
+                    ForEach(0..<sourceLevels.count, id: \.self) { index in
+                        let item = sourceLevels[index]
                         
                         CardComponent(level: .constant(item))
                             .padding(.horizontal, 10)
@@ -36,35 +35,24 @@ struct CardCarousel: View {
             .scrollIndicators(.hidden)
             .scrollTargetBehavior(.viewAligned)
             .onAppear {
-                self.itemsArray = [sourceLevels, sourceLevels, sourceLevels]
-                scrollPosition = sourceLevels.count
+                updateActiveLevel(index: scrollPosition)
             }
             .onChange(of: scrollPosition) { oldValue, newValue in
-                guard let scrollPos = newValue else { return }
-                
-                let itemCount = sourceLevels.count
-                activeLevel = sourceLevels[scrollPos % itemCount]
-                            
-                if scrollPos / itemCount == 0 && scrollPos % itemCount == itemCount - 1 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration) {
-                        itemsArray.removeLast()
-                        itemsArray.insert(sourceLevels, at: 0)
-                        self.scrollPosition = scrollPos + itemCount
-                    }
-                    return
-                }
-                
-                if scrollPos / itemCount == 2 && scrollPos % itemCount == 0 {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + animationDuration) {
-                        itemsArray.removeFirst()
-                        itemsArray.append(sourceLevels)
-                        self.scrollPosition = scrollPos - itemCount
-                    }
-                    return
-                }
+                updateActiveLevel(index: scrollPosition)
+            }
+        }
+    }
+    
+private func updateActiveLevel(index: Int?) {
+    if let position = index {
+            let targetIndex = position % sourceLevels.count
+            
+            if targetIndex >= 0 && targetIndex < sourceLevels.count {
+                activeLevel = sourceLevels[targetIndex]
             }
         }
     }
 }
+
 
 

@@ -9,8 +9,8 @@ import SwiftUI
 struct LevelView: View {
     
     private let noodleLevels: [Level] = [
-        Level(levelName: "Perfect", cookingDuration: "3 mins", durationInSeconds: 180, description: "Perfectly cooked anjay", illustration: ""),
         Level(levelName: "Firm", cookingDuration: "1 mins", durationInSeconds: 60, description: "Still kind of hard...", illustration: ""),
+        Level(levelName: "Perfect", cookingDuration: "3 mins", durationInSeconds: 180, description: "Perfectly cooked anjay", illustration: ""),
         Level(levelName: "Soft", cookingDuration: "4 mins", durationInSeconds: 240, description: "For someone who loves soft soft noodles", illustration: "")
     ]
     
@@ -24,8 +24,8 @@ struct LevelView: View {
 
     init() {
         _selectedLevel = State(initialValue: [
-            Level(levelName: "Perfect", cookingDuration: "3 mins", durationInSeconds: 180, description: "Perfectly cooked anjay", illustration: ""),
             Level(levelName: "Firm", cookingDuration: "1 mins", durationInSeconds: 60, description: "Still kind of hard...", illustration: ""),
+            Level(levelName: "Perfect", cookingDuration: "3 mins", durationInSeconds: 180, description: "Perfectly cooked anjay", illustration: ""),
             Level(levelName: "Soft", cookingDuration: "4 mins", durationInSeconds: 240, description: "For someone who loves soft soft noodles", illustration: "")
         ][0])
     }

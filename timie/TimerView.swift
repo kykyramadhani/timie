@@ -12,6 +12,20 @@ struct TimerView: View {
     @State private var timerModel: NoodleTimer
     @Environment(\.dismiss) var dismiss
     @State private var showCancelAlert = false
+    @State private var currentFact: String = ""
+    
+    let facts: [String] = ["4,000-year-old noodles were\nfound in China. Total fossils!",
+                           "In Japan, slurping is a huge\ncompliments to the chef.",
+                           "Long noodles = long life. Don’t cut them or\nyou’ll trim your luck.",
+                           "Ramen was a space pioneer! Astronauts even\neat it in zero-g.",
+                           "Italy has 600+ pasta shapes.\nThere’s a noodle for every mood.",
+                           "Instant ramen started as a pricey luxury item.\nMajor glow-up!",
+                           "One noodle reached 3,000 meters long.\nThat’s a lot of dough!",
+                           "The name 'noodle' comes from Germany.\nThanks, Nudel!",
+                           "Japan has a whole Cup Noodles Museum.\nIt’s a total vibe.",
+                           "Noodles are flash-fried to stay \nfresh forever. Science is tasty!",
+                           "Ramen is basically prison currency.\nMove over, cigarettes!"]
+            
         
     let timerEngine = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -131,12 +145,17 @@ struct TimerView: View {
             Spacer()
             
             VStack {
-                Text("**Noodle fact:** Noodles are at least\n4000 years old. Classic.") //we'll gonna use randomized array later tho this is just for reference
+                Text("**Noodle Fact:** ")
+                Text(currentFact) //we'll gonna use randomized array later tho this is just for reference
             }
             .font(.system(size: 14))
             .foregroundColor(strokeOrange)
             .multilineTextAlignment(.center)
-            .padding(.bottom, 60)
+            .padding(7)
+            .padding(.bottom, 50)
+            .onAppear{
+                currentFact = facts.randomElement() ?? ""
+            }
         }
         .background(bgYellow.ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
