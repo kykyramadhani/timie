@@ -9,22 +9,10 @@ import SwiftUI
 internal import Combine
 
 struct TimerView: View {
-    @State private var timerModel = NoodleTimer(
-        level: Level(
-            levelName: "Perfect Noodles",
-            cookingDuration: "3 min",
-            description: "Boil until perfect",
-            illustration: ""
-        ),
-        timerDuration: 180,
-        timeRemaining: 180,
-        isStarted: true,
-        illustrations: ["", "", ""]
-    )
-    
+    @State private var timerModel: NoodleTimer
+        
     let timerEngine = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    //needs to be added to assets
     let bgYellow = Color(red: 249/255, green: 242/255, blue: 208/255)
     let textBlue = Color(red: 73/255, green: 106/255, blue: 178/255)
     let boldOrange = Color(red: 180/255, green: 59/255, blue: 6/255)
@@ -33,6 +21,16 @@ struct TimerView: View {
     
     var progressRing: Double {
         return 1.0 - (timerModel.timeRemaining / timerModel.timerDuration)
+    }
+    
+    init(selectedLevel: Level) {
+        _timerModel = State(initialValue: NoodleTimer(
+            level: selectedLevel,
+            timerDuration: selectedLevel.durationInSeconds,
+            timeRemaining: selectedLevel.durationInSeconds,
+            isStarted: true,
+            illustrations: ["", "", ""]
+        ))
     }
     
     var body: some View {
@@ -59,7 +57,8 @@ struct TimerView: View {
                 HStack(spacing: 4) {
                     Text("Your")
                         .foregroundColor(.black)
-                    Text("perfect noodles")
+                    // Ambil nama dari model! (Misal: "Perfect" / "Soft")
+                    Text("\(timerModel.level.levelName.lowercased()) noodles")
                         .bold()
                         .foregroundColor(boldOrange)
                 }
@@ -146,6 +145,13 @@ struct TimerView: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView()
+        // Buat data dummy khusus untuk menampilkan Preview di Xcode
+        TimerView(selectedLevel: Level(
+            levelName: "Preview",
+            cookingDuration: "3 mins",
+            durationInSeconds: 180,
+            description: "Just for preview",
+            illustration: ""
+        ))
     }
 }

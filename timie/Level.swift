@@ -11,6 +11,7 @@ struct Level: Identifiable {
     let id: UUID = UUID()
     var levelName: String
     var cookingDuration: String
+    var durationInSeconds: Double
     var description: String
     var illustration: String
 }
