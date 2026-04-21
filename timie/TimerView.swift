@@ -172,6 +172,12 @@ struct TimerView: View {
         .onReceive(timerEngine) { _ in
            timerModel.tick()
         }
+        .fullScreenCover(isPresented: $timerModel.isDone) {
+            CompletedView {
+                timerModel.isDone = false
+                dismiss()
+            }
+        }
    }
 }
 
