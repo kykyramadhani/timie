@@ -10,6 +10,8 @@ internal import Combine
 
 struct TimerView: View {
     @State private var timerModel: NoodleTimer
+    @Environment(\.dismiss) var dismiss
+    @State private var showCancelAlert = false
         
     let timerEngine = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -37,7 +39,8 @@ struct TimerView: View {
         VStack {
             HStack {
                 Button(action: {
-                    //action close, will code the popup later
+                    timerModel.pause()
+                        showCancelAlert = true
                 }) {
                     Image(systemName: "xmark")
                         .font(.system(size: 20, weight: .bold))
@@ -57,7 +60,6 @@ struct TimerView: View {
                 HStack(spacing: 4) {
                     Text("Your")
                         .foregroundColor(.black)
-                    // Ambil nama dari model! (Misal: "Perfect" / "Soft")
                     Text("\(timerModel.level.levelName.lowercased()) noodles")
                         .bold()
                         .foregroundColor(boldOrange)
@@ -137,15 +139,25 @@ struct TimerView: View {
             .padding(.bottom, 60)
         }
         .background(bgYellow.ignoresSafeArea())
-        .onReceive(timerEngine) { _ in
-            timerModel.tick()
+        .navigationBarBackButtonHidden(true)
+        .alert("Cancel Cooking?", isPresented: $showCancelAlert) {
+           Button("Stop", role: .destructive) {
+               dismiss()
+           }
+           Button("Resume", role: .cancel) {
+               timerModel.pause()
+           }
+        } message: {
+           Text("By exiting you will stop the timer.")
         }
-    }
+        .onReceive(timerEngine) { _ in
+           timerModel.tick()
+        }
+   }
 }
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        // Buat data dummy khusus untuk menampilkan Preview di Xcode
         TimerView(selectedLevel: Level(
             levelName: "Preview",
             cookingDuration: "3 mins",
