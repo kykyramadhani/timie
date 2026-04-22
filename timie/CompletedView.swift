@@ -11,9 +11,6 @@ struct CompletedView: View {
     @Environment(\.dismiss) var dismiss
     var onDone: () -> Void
     
-    let bgYellow = Color(red: 249/255, green: 242/255, blue: 208/255)
-    let textBlue = Color(red: 73/255, green: 106/255, blue: 178/255)
-    
     var body: some View {
         VStack {
             Spacer()
@@ -22,8 +19,8 @@ struct CompletedView: View {
                 Text("Enjoy it while")
                 Text("it’s hot 😋")
             }
-            .font(.system(size: 40, weight: .bold, design: .rounded))
-            .foregroundColor(textBlue)
+            .font(.system(size: 40, weight: .bold, design: .default))
+            .foregroundColor(Color.accentColor)
             .multilineTextAlignment(.center)
             
             Spacer()
@@ -39,13 +36,13 @@ struct CompletedView: View {
                     .font(.system(size: 20, weight: .semibold))
                     .foregroundColor(.white)
                     .frame(width: 220, height: 60)
-                    .background(textBlue)
+                    .background(Color.accentColor)
                     .clipShape(Capsule())
             }
             .padding(.bottom, 40)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(bgYellow.ignoresSafeArea())
+        .background(Color("bgColor").ignoresSafeArea())
     }
 }
 

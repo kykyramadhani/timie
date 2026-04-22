@@ -9,7 +9,7 @@ import SwiftUI
 internal import Combine
 
 struct TimerView: View {
-    @State private var timerModel: NoodleTimer
+    @State var timerModel: NoodleTimer
     @Environment(\.dismiss) var dismiss
     @State private var showCancelAlert = false
     @State private var currentFact: String = ""
@@ -29,25 +29,19 @@ struct TimerView: View {
         
     let timerEngine = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    let bgYellow = Color(red: 249/255, green: 242/255, blue: 208/255)
-    let textBlue = Color(red: 73/255, green: 106/255, blue: 178/255)
-    let boldOrange = Color(red: 180/255, green: 59/255, blue: 6/255)
-    let strokeOrange = Color(red: 186/255, green: 57/255, blue: 1/255)
-    let circleTrack = Color.black.opacity(0.06)
-    
     var progressRing: Double {
         return 1.0 - (timerModel.timeRemaining / timerModel.timerDuration)
     }
     
-    init(selectedLevel: Level) {
-        _timerModel = State(initialValue: NoodleTimer(
-            level: selectedLevel,
-            timerDuration: selectedLevel.durationInSeconds,
-            timeRemaining: selectedLevel.durationInSeconds,
-            isStarted: true,
-            illustrations: ["", "", ""]
-        ))
-    }
+//    init(selectedLevel: Level) {
+//        _timerModel = State(initialValue: NoodleTimer(
+//            level: selectedLevel,
+//            timerDuration: selectedLevel.durationInSeconds,
+//            timeRemaining: selectedLevel.durationInSeconds,
+//            isStarted: true,
+//            illustrations: ["", "", ""]
+//        ))
+//    }
     
     var body: some View {
         VStack {
@@ -76,37 +70,37 @@ struct TimerView: View {
                         .foregroundColor(.black)
                     Text("\(timerModel.level.levelName.lowercased()) noodles")
                         .bold()
-                        .foregroundColor(boldOrange)
+                        .foregroundColor(Color("headingColor"))
                 }
                 HStack(spacing: 4) {
                     Text("will be")
                         .foregroundColor(.black)
                     Text("cooked in:")
                         .bold()
-                        .foregroundColor(boldOrange)
+                        .foregroundColor(Color("headingColor"))
                 }
             }
             .font(.system(size: 18))
             
             Text(timerModel.getFormattedTime())
                 .font(.system(size: 80, weight: .medium, design: .default))
-                .foregroundColor(textBlue)
+                .foregroundColor(Color.accentColor)
                 .padding(.top, 1)
             
             ZStack {
                 Circle()
                     .stroke(lineWidth: 12)
-                    .foregroundColor(circleTrack)
+                    .foregroundColor(Color.black.opacity(0.06))
                 
                 Circle()
                     .trim(from: 0.0, to: CGFloat(progressRing))
                     .stroke(style: StrokeStyle(lineWidth: 12, lineCap: .round))
-                    .foregroundColor(strokeOrange)
+                    .foregroundColor(Color("headingColor"))
                     .rotationEffect(Angle(degrees: -90))
                     .animation(.linear(duration: 1.0), value: progressRing)
                 
                 Circle()
-                    .fill(textBlue)
+                    .fill(Color.accentColor)
                     .frame(width: 28, height: 28)
                     .offset(y: -130)
                     .rotationEffect(Angle(degrees: progressRing * 360))
@@ -122,7 +116,7 @@ struct TimerView: View {
                 }) {
                     Image(systemName: timerModel.isPaused ? "play.fill" : "pause.fill")
                         .font(.system(size: 24, weight: .bold))
-                        .foregroundColor(textBlue)
+                        .foregroundColor(Color.accentColor)
                         .frame(width: 60, height: 60)
                         .background(Color.white)
                         .clipShape(Circle())
@@ -136,7 +130,7 @@ struct TimerView: View {
                         .font(.system(size: 22, weight: .semibold))
                         .foregroundColor(.white)
                         .frame(width: 160, height: 60)
-                        .background(textBlue)
+                        .background(Color.accentColor)
                         .clipShape(Capsule())
                 }
             }
@@ -146,10 +140,10 @@ struct TimerView: View {
             
             VStack {
                 Text("**Noodle Fact:** ")
-                Text(currentFact) //we'll gonna use randomized array later tho this is just for reference
+                Text(currentFact)
             }
             .font(.system(size: 14))
-            .foregroundColor(strokeOrange)
+            .foregroundColor(Color("headingColor"))
             .multilineTextAlignment(.center)
             .padding(7)
             .padding(.bottom, 50)
@@ -157,7 +151,7 @@ struct TimerView: View {
                 currentFact = facts.randomElement() ?? ""
             }
         }
-        .background(bgYellow.ignoresSafeArea())
+        .background(Color("bgColor").ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
         .alert("Cancel Cooking?", isPresented: $showCancelAlert) {
            Button("Stop", role: .destructive) {
@@ -183,12 +177,20 @@ struct TimerView: View {
 
 struct TimerView_Previews: PreviewProvider {
     static var previews: some View {
-        TimerView(selectedLevel: Level(
+        let previewLevel = Level(
             levelName: "Preview",
             cookingDuration: "3 mins",
             durationInSeconds: 180,
             description: "Just for preview",
             illustration: ""
+        )
+        
+        TimerView(timerModel: NoodleTimer(
+            level: previewLevel,
+            timerDuration: previewLevel.durationInSeconds,
+            timeRemaining: previewLevel.durationInSeconds,
+            isStarted: true,
+            illustrations: ["", "", ""]
         ))
     }
 }
