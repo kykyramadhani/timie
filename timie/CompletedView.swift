@@ -11,27 +11,24 @@ import AVFoundation
 struct CompletedView: View {
     @Environment(\.dismiss) var dismiss
     var onDone: () -> Void
+    @State private var audioPlayer: AVAudioPlayer?
     
-//    if let path = Bundle.main.path(forResource: "example", ofType: "mp3") {
-//        let url = URL(fileURLWithPath: path)
-//        do {
-//            audioPlayer = try AVAudioPlayer(contentsOf: url)
-//            audioPlayer?.play()
-//        } catch {
-//            print("Could not load file")
-//        }
-//    }
+    
     
     var body: some View {
         VStack {
             Spacer()
             
             VStack(spacing: 8) {
-                Text("Time's up!\nEnjoy it while it’s hot 😋")
+                Text("Time's up!")
             }
             .font(.system(size: 40, weight: .bold, design: .default))
             .foregroundColor(Color.accentColor)
             .multilineTextAlignment(.center)
+            .padding(10)
+            Text("Enjoy it while it’s hot :)")
+                .font(Font.system(size: 20, weight: .semibold))
+                .foregroundStyle(Color("subtitleColor"))
             
             Spacer()
             
@@ -53,6 +50,31 @@ struct CompletedView: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("bgColor").ignoresSafeArea())
+        .onAppear {
+            playSound()
+        }
+        .onDisappear {
+            audioPlayer?.stop()
+        }
+    }
+    
+    func playSound() {
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+        } catch {
+            print("Failed to set audio session category.")
+        }
+        
+        guard let url = Bundle.main.url(forResource: "blip", withExtension: "wav") else { return }
+        
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: url)
+            audioPlayer?.numberOfLoops = -1
+            audioPlayer?.play()
+        } catch {
+            print("Audio Player Error: \(error.localizedDescription)")
+        }
     }
 }
 
