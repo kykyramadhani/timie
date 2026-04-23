@@ -20,12 +20,16 @@ struct CardCarousel: View {
         
         GeometryReader { geometry in
             ScrollView(.horizontal) {
-                LazyHStack(spacing: 0) {
+               LazyHStack(spacing: 0) {
                     ForEach(0..<sourceLevels.count, id: \.self) { index in
                         let item = sourceLevels[index]
                         
                         CardComponent(level: .constant(item))
                             .padding(.horizontal, 10)
+                            .scrollTransition(axis: .horizontal) { content, phase in
+                                content
+                                    .scaleEffect(phase.isIdentity ? 1.0 : 0.85)
+                            }
                     }
                 }
                 .scrollTargetLayout()

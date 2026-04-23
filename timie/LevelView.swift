@@ -33,14 +33,11 @@ struct LevelView: View {
                     Text("Choose a level.")
                         .font(Font.system(size: 22, weight: .regular, design: .default))
                         .foregroundStyle(Color("subtitleColor"))
-                    Spacer(minLength: 20)
                     
                     CardCarousel(
                         activeLevel: $selectedLevel, sourceLevels: Self.noodleLevels
                     )
-                    .padding(.top, 10)
                     
-                    Spacer()
                     
                     NavigationLink {
 //                        TimerView(selectedLevel: selectedLevel)
@@ -67,6 +64,7 @@ struct LevelView: View {
                         .clipShape(.capsule)
                         .padding(20)
                     }
+                    Spacer(minLength: 30)
                 }
             }
         }
