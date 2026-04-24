@@ -25,30 +25,31 @@ struct TimerView: View {
                            "Japan has a whole Cup Noodles Museum.\nIt’s a total vibe.",
                            "Noodles are flash-fried to stay \nfresh forever. Science is tasty!",
                            "Ramen is basically prison currency.\nMove over, cigarettes!"]
-            
-        
+    
+    
     let timerEngine = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timerForFacts = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     
     var progressRing: Double {
         return 1.0 - (timerModel.timeRemaining / timerModel.timerDuration)
     }
     
-//    init(selectedLevel: Level) {
-//        _timerModel = State(initialValue: NoodleTimer(
-//            level: selectedLevel,
-//            timerDuration: selectedLevel.durationInSeconds,
-//            timeRemaining: selectedLevel.durationInSeconds,
-//            isStarted: true,
-//            illustrations: ["", "", ""]
-//        ))
-//    }
+    //    init(selectedLevel: Level) {
+    //        _timerModel = State(initialValue: NoodleTimer(
+    //            level: selectedLevel,
+    //            timerDuration: selectedLevel.durationInSeconds,
+    //            timeRemaining: selectedLevel.durationInSeconds,
+    //            isStarted: true,
+    //            illustrations: ["", "", ""]
+    //        ))
+    //    }
     
     var body: some View {
         VStack {
             HStack {
                 Button(action: {
                     timerModel.pause()
-                        showCancelAlert = true
+                    showCancelAlert = true
                 }) {
                     Image(systemName: "xmark")
                         .font(.system(size: 20, weight: .bold))
@@ -141,30 +142,33 @@ struct TimerView: View {
             VStack {
                 Text("**Noodle Fact:** ")
                 Text(currentFact)
+                    .onAppear {
+                        updateFacts()
+                    }
+                    .onReceive(timerForFacts) { _ in
+                        updateFacts()
+                    }
             }
             .font(.system(size: 14))
             .foregroundColor(Color("headingColor"))
             .multilineTextAlignment(.center)
             .padding(7)
             .padding(.bottom, 50)
-            .onAppear{
-                currentFact = facts.randomElement() ?? ""
-            }
         }
         .background(Color("bgColor").ignoresSafeArea())
         .navigationBarBackButtonHidden(true)
         .alert("Cancel Cooking?", isPresented: $showCancelAlert) {
-           Button("Stop", role: .destructive) {
-               dismiss()
-           }
-           Button("Resume", role: .cancel) {
-               timerModel.pause()
-           }
+            Button("Stop", role: .destructive) {
+                dismiss()
+            }
+            Button("Resume", role: .cancel) {
+                timerModel.pause()
+            }
         } message: {
-           Text("By exiting you will stop the timer.")
+            Text("By exiting you will stop the timer.")
         }
         .onReceive(timerEngine) { _ in
-           timerModel.tick()
+            timerModel.tick()
         }
         .fullScreenCover(isPresented: $timerModel.isDone) {
             CompletedView {
@@ -172,7 +176,13 @@ struct TimerView: View {
                 dismiss()
             }
         }
-   }
+    }
+    
+    func updateFacts() {
+        withAnimation(.easeInOut(duration: 1)) {
+            currentFact = facts.randomElement() ?? ""
+        }
+    }
 }
 
 struct TimerView_Previews: PreviewProvider {
