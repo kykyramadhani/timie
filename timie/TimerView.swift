@@ -146,7 +146,9 @@ struct TimerView: View {
                         updateFacts()
                     }
                     .onReceive(timerForFacts) { _ in
-                        updateFacts()
+                        withAnimation(.easeInOut(duration: 1)){
+                            updateFacts()
+                        }
                     }
             }
             .font(.system(size: 14))
@@ -179,9 +181,7 @@ struct TimerView: View {
     }
     
     func updateFacts() {
-        withAnimation(.easeInOut(duration: 1)) {
-            currentFact = facts.randomElement() ?? ""
-        }
+        currentFact = facts.randomElement() ?? ""
     }
 }
 
