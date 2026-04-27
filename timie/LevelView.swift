@@ -9,9 +9,9 @@ import SwiftUI
 struct LevelView: View {
     
     private static let noodleLevels: [Level] = [
-        Level(levelName: "Firm", cookingDuration: "1 mins", durationInSeconds: 60, description: "Still kind of hard...", illustration: ""),
-        Level(levelName: "Perfect", cookingDuration: "3 mins", durationInSeconds: 180, description: "Perfectly cooked", illustration: ""),
-        Level(levelName: "Soft", cookingDuration: "4 mins", durationInSeconds: 240, description: "For someone who loves soft soft noodles", illustration: "")
+        Level(levelName: "Firm", cookingDuration: "1 mins", durationInSeconds: 60, description: "Still kind of hard...", illustration: "firm"),
+        Level(levelName: "Perfect", cookingDuration: "3 mins", durationInSeconds: 180, description: "Perfectly cooked", illustration: "perfect"),
+        Level(levelName: "Soft", cookingDuration: "4 mins", durationInSeconds: 240, description: "For someone who loves soft soft noodles", illustration: "soft")
     ]
     
     @State private var selectedLevel: Level = noodleLevels[0]
@@ -22,12 +22,12 @@ struct LevelView: View {
                 Color("bgColor")
                     .ignoresSafeArea(.all)
                 VStack {
-                    Image("logoType")
+                    Image("LogoType")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 50, height: 50)
                     Text("How do you like your noodles?")
-                        .font(Font.system(size: 20, weight: .bold, design: .default))
+                        .font(Font.system(size: 24, weight: .bold, design: .default))
                         .foregroundStyle(Color("headingColor"))
                         .padding(8)
                     Text("Choose a level.")
@@ -40,14 +40,14 @@ struct LevelView: View {
                     
                     
                     NavigationLink {
-//                        TimerView(selectedLevel: selectedLevel)
-                        TimerView(timerModel: NoodleTimer(
-                                level: selectedLevel,
-                                timerDuration: selectedLevel.durationInSeconds,
-                                timeRemaining: selectedLevel.durationInSeconds,
-                                isStarted: true,
-                                illustrations: ["", "", ""]
-                            ))
+                        TimerView(selectedLevel: selectedLevel)
+//                        TimerView(timerModel: NoodleTimer(
+//                                level: selectedLevel,
+//                                timerDuration: selectedLevel.durationInSeconds,
+//                                timeRemaining: selectedLevel.durationInSeconds,
+//                                isStarted: true,
+//                                illustrations: ["Illustration1", "Illustration2", "Illustration3"]
+//                            ))
                     } label: {
                         Label {
                             Text("Start Cooking")

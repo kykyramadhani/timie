@@ -56,7 +56,7 @@ struct NoodleTimer: Identifiable {
         }
     
     
-    mutating private func updateIllustration() {
+    mutating func updateIllustration() {
             guard !illustrations.isEmpty else { return }
         
             //counting percentage of the progress so that we dont do bunch of if-elses
@@ -66,6 +66,7 @@ struct NoodleTimer: Identifiable {
             //setting the index of the illustration
             let calculatedIndex = Int(progress * totalImages)
             currentIllustrationIndex = min(calculatedIndex, illustrations.count - 1)
+            
         }
     
     //helper func to format from timeinterval to string.. the output will be like 01:00

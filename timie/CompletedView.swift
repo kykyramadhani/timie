@@ -32,9 +32,10 @@ struct CompletedView: View {
             
             Spacer()
             
-            Text("🍜")
-                .font(Font.system(size: 300))
-                .padding(.bottom, 50)
+            Image("CompletedView")
+                .resizable()
+                .frame(width: 350, height: 350)
+            Spacer()
             
             Button(action: {
                 onDone()

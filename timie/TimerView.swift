@@ -34,15 +34,15 @@ struct TimerView: View {
         return 1.0 - (timerModel.timeRemaining / timerModel.timerDuration)
     }
     
-    //    init(selectedLevel: Level) {
-    //        _timerModel = State(initialValue: NoodleTimer(
-    //            level: selectedLevel,
-    //            timerDuration: selectedLevel.durationInSeconds,
-    //            timeRemaining: selectedLevel.durationInSeconds,
-    //            isStarted: true,
-    //            illustrations: ["", "", ""]
-    //        ))
-    //    }
+        init(selectedLevel: Level) {
+            _timerModel = State(initialValue: NoodleTimer(
+                level: selectedLevel,
+                timerDuration: selectedLevel.durationInSeconds,
+                timeRemaining: selectedLevel.durationInSeconds,
+                isStarted: true,
+                illustrations: ["Illustration1", "Illustration2", "Illustration3"]
+            ))
+        }
     
     var body: some View {
         VStack {
@@ -87,8 +87,14 @@ struct TimerView: View {
                 .font(.system(size: 80, weight: .medium, design: .default))
                 .foregroundColor(Color.accentColor)
                 .padding(.top, 1)
+                .animation(nil, value: timerModel.timeRemaining)
             
             ZStack {
+                
+                Image(timerModel.illustrations[timerModel.currentIllustrationIndex])
+                    .resizable()
+                    .frame(width: 250, height: 250)
+                  
                 Circle()
                     .stroke(lineWidth: 12)
                     .foregroundColor(Color.black.opacity(0.06))
@@ -106,6 +112,7 @@ struct TimerView: View {
                     .offset(y: -130)
                     .rotationEffect(Angle(degrees: progressRing * 360))
                     .animation(.linear(duration: 1.0), value: progressRing)
+                
             }
             .frame(width: 260, height: 260)
             
@@ -170,8 +177,12 @@ struct TimerView: View {
             Text("By exiting you will stop the timer.")
         }
         .onReceive(timerEngine) { _ in
-            timerModel.tick()
+            withAnimation(.easeInOut(duration: 1)){
+                timerModel.tick()
+            }
         }
+        
+        
         .fullScreenCover(isPresented: $timerModel.isDone) {
             CompletedView {
                 timerModel.isDone = false
@@ -182,25 +193,5 @@ struct TimerView: View {
     
     func updateFacts() {
         currentFact = facts.randomElement() ?? ""
-    }
-}
-
-struct TimerView_Previews: PreviewProvider {
-    static var previews: some View {
-        let previewLevel = Level(
-            levelName: "Preview",
-            cookingDuration: "3 mins",
-            durationInSeconds: 180,
-            description: "Just for preview",
-            illustration: ""
-        )
-        
-        TimerView(timerModel: NoodleTimer(
-            level: previewLevel,
-            timerDuration: previewLevel.durationInSeconds,
-            timeRemaining: previewLevel.durationInSeconds,
-            isStarted: true,
-            illustrations: ["", "", ""]
-        ))
     }
 }
